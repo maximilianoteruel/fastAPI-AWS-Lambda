@@ -100,3 +100,37 @@ def test_update_note(db: Session) -> None:
     assert note.title == new_title
     assert note.description == new_description
     assert note.tags == new_tags
+
+
+#  delete
+def test_delete_item(db: Session) -> None:
+    db.query(Note).delete()
+
+    stored_notes = crud_note.get_multi(db=db)
+    assert len(stored_notes) == 0
+
+    title = random_string(100)
+    description = random_string(255)
+    tags = random_string(100)
+
+    note_obj = NoteCreate(title=title, description=description, tags=tags)
+    note_1 = crud_note.create(db=db, obj_in=note_obj)
+
+    title = random_string(100)
+    description = random_string(255)
+    tags = random_string(100)
+
+    note_obj = NoteCreate(title=title, description=description, tags=tags)
+    note_2 = crud_note.create(db=db, obj_in=note_obj)
+
+    stored_notes = crud_note.get_multi(db=db)
+    assert len(stored_notes) == 2
+
+    id_delete = note_1.id
+    crud_note.remove(db=db, id=id_delete)
+    note_1 = crud_note.get(db=db, id=id_delete)
+    assert note_1 is None
+
+    stored_notes = crud_note.get_multi(db=db)
+    assert len(stored_notes) == 1
+
