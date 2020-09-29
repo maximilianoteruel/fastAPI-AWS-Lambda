@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from core.settings.init_settings import settings
+from core.settings.get_settings import settings
 
 
 SQLALCHEMY_DATABASE_URL = "mysql://{}:{}@{}/{}".format(
