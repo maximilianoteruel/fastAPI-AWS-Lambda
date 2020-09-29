@@ -1,5 +1,6 @@
 version: "3.4"
 services:
+  # Development Environment
   api:
     build:
       target: dev
@@ -30,6 +31,7 @@ services:
     volumes:
       - db_data:/var/lib/mysql
 
+  # Testing
   tests:
     build:
       target: dev
@@ -55,9 +57,6 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root_1234Azumo
       - MYSQL_DATABASE=DB
-    volumes:
-      - db_test_data:/var/lib/mysql
 
 volumes:
   db_data:
-  db_test_data:
