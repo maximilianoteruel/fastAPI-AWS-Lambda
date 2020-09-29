@@ -1,22 +1,18 @@
 from fastapi import APIRouter, Depends, HTTPException
+from typing import Any, List
 
-# from core.database import get_db
+from sqlalchemy.orm import Session
+from api import deps
 
-# from cruds import notes
+
+from cruds import notes as cruds
+from models import notes as models
+from schemas import notes as schemas
 
 router = APIRouter()
 
 
-# # Dependency
-# def get_db():
-#     db = SessionLocal()
-#     try:
-#         yield db
-#     finally:
-#         db.close()
-
-
-# @router.get("/")
-# async def read_notes(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-#     notes = get_notes(db, skip=skip, limit=limit)
-#     return notes
+@router.get("/", response_model=List[schemas.Note])
+async def read_notes(skip: int = 0, limit: int = 100, db: Session = Depends(deps.get_db)):
+    notes = cruds.get_notes(db, skip=skip, limit=limit)
+    return notes

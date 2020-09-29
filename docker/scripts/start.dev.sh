@@ -15,7 +15,15 @@ if [ "$TYPE" == "API" ]; then
     
     echo '*** Type API ***'
     
+    
+    # echo 'Runing migrations...'
+    # alembic upgrade head
+    
+    # echo 'Create initial data in DB...'
+    # python /usr/src/app/app/initial_data.py
+    
     echo 'Starting Server...'
+    cd /usr/src/app/app
     uvicorn main:app --reload --host 0.0.0.0
     
 fi

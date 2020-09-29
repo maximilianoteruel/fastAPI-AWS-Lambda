@@ -10,7 +10,7 @@ services:
       - DATABASE_PASSWORD=root_1234Azumo
       - DATABASE_NAME=DB
     volumes:
-      - ./app:/usr/src/app
+      - ./:/usr/src/app
 
   db:
     image: mysql:8.0.21
