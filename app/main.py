@@ -12,6 +12,12 @@ elif environment == "PROD":
     settings = ProdSettings()
 
 
+# import models
+# from core.database import engine
+
+# models.Base.metadata.create_all(bind=engine)
+
+
 # FastAPI
 app = FastAPI()
 app.include_router(api_router)

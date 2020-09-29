@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3"
 services:
   api:
     image: is_backend:1.0.0
@@ -7,17 +7,18 @@ services:
     environment:
       - DATABASE_HOST=db
       - DATABASE_USER=root
-      - DATABASE_PASSWORD=root
+      - DATABASE_PASSWORD=root_1234Azumo
       - DATABASE_NAME=DB
     volumes:
       - ./app:/usr/src/app
 
   db:
     image: mysql:8.0.21
+    command: --default-authentication-plugin=mysql_native_password
     ports:
       - "3306:3306"
     environment:
-      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_PASSWORD=root_1234Azumo
       - MYSQL_DATABASE=DB
     volumes:
       - db_data:/var/lib/mysql
