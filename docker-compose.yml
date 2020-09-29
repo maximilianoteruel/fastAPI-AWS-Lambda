@@ -1,16 +1,22 @@
-version: "3"
+version: "3.4"
 services:
   api:
-    image: is_backend:1.0.0
+    build:
+      target: dev
+      context: .
+      dockerfile: ./Dockerfile
+    image: is_api
     ports:
       - "8000:8000"
     environment:
       - DATABASE_HOST=db
       - DATABASE_USER=root
       - DATABASE_PASSWORD=root_1234Azumo
-      - DATABASE_NAME=DB2
+      - DATABASE_NAME=DB
     volumes:
       - ./:/usr/src/app
+    depends_on:
+      - db
 
   db:
     image: mysql:8.0.21
