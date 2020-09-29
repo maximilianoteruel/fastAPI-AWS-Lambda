@@ -83,3 +83,24 @@ def test_update_note(client: TestClient, db: Session) -> None:
     assert content["title"] == data["title"]
     assert content["description"] == data["description"]
     assert content["tags"] == data["tags"]
+
+
+# DELETE
+def test_delete_note(client: TestClient, db: Session) -> None:
+
+    title = random_string(100)
+    description = random_string(255)
+    tags = random_string(100)
+
+    note_in = NoteCreate(title=title, description=description, tags=tags)
+    note = crud_note.create(db=db, obj_in=note_in)
+    print("note id: ", note.id)
+
+    response = client.delete(f"{settings.API_HOST}/notes/{note.id}",)
+    content = response.json()
+
+    assert response.status_code == 200
+    assert content["id"] == note.id
+    assert content["title"] == note.title
+    assert content["description"] == note.description
+    assert content["tags"] == note.tags

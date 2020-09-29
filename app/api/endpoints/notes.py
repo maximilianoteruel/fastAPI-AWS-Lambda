@@ -50,3 +50,16 @@ def update_item(*, db: Session = Depends(deps.get_db), id: int, note_in: schemas
         raise HTTPException(status_code=404, detail="Item not found")
     note = crud_note.update(db=db, db_obj=note, obj_in=note_in)
     return note
+
+
+# Get Note
+@router.delete("/{id}", response_model=schemas.Note)
+def delete_note(*, db: Session = Depends(deps.get_db), id: int,) -> Any:
+    """
+    Delete an item.
+    """
+    note = crud_note.get(db=db, id=id)
+    if not note:
+        raise HTTPException(status_code=404, detail="Item not found")
+    note = crud_note.remove(db=db, id=id)
+    return note

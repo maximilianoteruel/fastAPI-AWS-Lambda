@@ -102,7 +102,7 @@ def test_update_note(db: Session) -> None:
     assert note.tags == new_tags
 
 
-#  delete
+# delete
 def test_delete_item(db: Session) -> None:
     db.query(Note).delete()
 
