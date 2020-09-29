@@ -16,8 +16,11 @@ if [ "$TYPE" == "API" ]; then
     echo '*** Type API ***'
     
     
-    # echo 'Runing migrations...'
-    # alembic upgrade head
+    # echo 'Generating Migrations...'
+    # PYTHONPATH=. alembic revision --autogenerate -m "name"
+    
+    echo 'Runing migrations...'
+    PYTHONPATH=. alembic upgrade head
     
     # echo 'Create initial data in DB...'
     # python /usr/src/app/app/initial_data.py

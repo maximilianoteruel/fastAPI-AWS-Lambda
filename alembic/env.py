@@ -20,7 +20,7 @@ fileConfig(config.config_file_name)
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 # target_metadata = None
-from core.db.base import Base  # noqa
+from app.core.db.base import Base  # noqa
 
 target_metadata = Base.metadata
 
@@ -31,10 +31,10 @@ target_metadata = Base.metadata
 
 
 def get_url():
-    user = os.getenv("DATABASE_USER", "")
-    password = os.getenv("DATABASE_PASSWORD", "")
-    server = os.getenv("DATABASE_HOST", "db")
-    db = os.getenv("DATABASE_DB", "app")
+    user = os.getenv("DATABASE_USER")
+    password = os.getenv("DATABASE_PASSWORD")
+    server = os.getenv("DATABASE_HOST")
+    db = os.getenv("DATABASE_NAME")
     return f"mysql://{user}:{password}@{server}/{db}"
 
 
