@@ -9,6 +9,7 @@ services:
     ports:
       - "8000:8000"
     environment:
+      - TYPE=API
       - DATABASE_HOST=db
       - DATABASE_USER=root
       - DATABASE_PASSWORD=root_1234Azumo
@@ -28,6 +29,21 @@ services:
       - MYSQL_DATABASE=DB
     volumes:
       - db_data:/var/lib/mysql
+
+  tests:
+    build:
+      target: dev
+      context: .
+      dockerfile: ./Dockerfile
+    image: is_test
+    environment:
+      - TYPE=TEST
+      - DATABASE_HOST=db
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=root_1234Azumo
+      - DATABASE_NAME=DB
+    volumes:
+      - ./:/usr/src/app
 
 volumes:
   db_data:

@@ -19,7 +19,7 @@ if [ "$TYPE" == "API" ]; then
     # echo 'Generating Migrations...'
     # PYTHONPATH=. alembic revision --autogenerate -m "name"
     
-    echo 'Runing migrations...'
+    echo 'Runing Migrations...'
     PYTHONPATH=. alembic upgrade head
     
     # echo 'Create initial data in DB...'
@@ -29,5 +29,16 @@ if [ "$TYPE" == "API" ]; then
     uvicorn app.main:app --reload --host 0.0.0.0
     
 fi
+
+if [ "$TYPE" == "TEST" ]; then
+    
+    echo '*** Type TEST ***'
+    
+    echo 'Runing Tests...'
+    pytest --cov=app --cov-report=term-missing:skip-covered app/tests
+    
+fi
+
+
 
 echo '::: Start Dev - END :::'

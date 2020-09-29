@@ -5,7 +5,7 @@ from app.schemas.notes import NoteCreate
 
 
 def get_note(db: Session, id: int):
-    return db.query(Note).filter(Note.id == note_id).first()
+    return db.query(Note).filter(Note.id == id).first()
 
 
 def get_notes(db: Session, skip: int = 0, limit: int = 100):
@@ -13,7 +13,7 @@ def get_notes(db: Session, skip: int = 0, limit: int = 100):
 
 
 def create_note(db: Session, note: NoteCreate):
-    db_note = Note(**note.dict)
+    db_note = Note(**note.dict())
     db.add(db_note)
     db.commit()
     db.refresh(db_note)
