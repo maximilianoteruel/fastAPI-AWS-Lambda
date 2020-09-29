@@ -4,7 +4,7 @@ from app.models.notes import Note
 from app.schemas.notes import NoteCreate
 
 
-def get_note(db: Session, note_id: int):
+def get_note(db: Session, id: int):
     return db.query(Note).filter(Note.id == note_id).first()
 
 
