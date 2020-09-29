@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
-from models.notes import Note
-from schemas.notes import NoteCreate
+from app.models.notes import Note
+from app.schemas.notes import NoteCreate
 
 
 def get_note(db: Session, note_id: int):

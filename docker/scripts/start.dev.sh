@@ -23,8 +23,7 @@ if [ "$TYPE" == "API" ]; then
     # python /usr/src/app/app/initial_data.py
     
     echo 'Starting Server...'
-    cd /usr/src/app/app
-    uvicorn main:app --reload --host 0.0.0.0
+    uvicorn app.main:app --reload --host 0.0.0.0
     
 fi
 

@@ -2,11 +2,11 @@ from typing import Any, List
 from fastapi import APIRouter, Depends
 
 from sqlalchemy.orm import Session
-from api import deps
+from app.api import deps
 
 
-from cruds import notes as cruds
-from schemas import notes as schemas
+from app.cruds import notes as cruds
+from app.schemas import notes as schemas
 
 router = APIRouter()
 

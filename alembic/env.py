@@ -5,7 +5,7 @@ import os
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
-# from logging.config import fileConfig
+from logging.config import fileConfig
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -13,15 +13,14 @@ config = context.config
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
-# fileConfig(config.config_file_name)
+fileConfig(config.config_file_name)
 
 # add your model's MetaData object here
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 # target_metadata = None
-
-from app.core.db.base import Base  # noqa
+from core.db.base import Base  # noqa
 
 target_metadata = Base.metadata
 
@@ -37,6 +36,9 @@ def get_url():
     server = os.getenv("DATABASE_HOST", "db")
     db = os.getenv("DATABASE_DB", "app")
     return f"mysql://{user}:{password}@{server}/{db}"
+
+
+print("Get:", get_url())
 
 
 def run_migrations_offline():
