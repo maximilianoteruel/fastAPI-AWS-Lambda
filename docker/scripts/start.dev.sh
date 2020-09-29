@@ -34,6 +34,9 @@ if [ "$TYPE" == "TEST" ]; then
     
     echo '*** Type TEST ***'
     
+    echo 'Runing Migrations...'
+    PYTHONPATH=. alembic upgrade head
+    
     echo 'Runing Tests...'
     pytest --cov=app --cov-report=term-missing:skip-covered app/tests
     
