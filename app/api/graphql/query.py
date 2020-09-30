@@ -18,18 +18,22 @@ class NoteTypeRelay(SQLAlchemyObjectType):
         interfaces = (relay.Node,)
 
 
+# Note by ID
 class QueryNote:
-    # Note by ID
     note = graphene.Field(NoteType, id=graphene.Argument(graphene.ID, required=True))
 
     def resolve_note(self, info, id):
         return NoteType.get_query(info).get(id)
 
-    # List of Notes
+
+# List of Notes
+class QueryNotesList:
     notes = graphene.List(NoteType)
 
     def resolve_notes(self, info):
         return NoteType.get_query(info).all()
 
-    # Relay of Notes
+
+# Relay of Notes
+class QueryNotesRelay:
     notes_relay = SQLAlchemyConnectionField(NoteTypeRelay.connection)
