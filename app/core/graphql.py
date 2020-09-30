@@ -2,7 +2,7 @@
 import graphene
 
 # Schemas
-from app.api.graphql import schema
+from app.api.graphql import notes
 
 from app.core.db.session import ScopedSession
 
@@ -10,13 +10,13 @@ from app.core.db.session import ScopedSession
 
 
 class Query(
-    schema.Query, graphene.ObjectType,
+    notes.schema.Query, graphene.ObjectType,
 ):
     pass
 
 
 class Mutation(
-    schema.Mutation, graphene.ObjectType,
+    notes.schema.Mutation, graphene.ObjectType,
 ):
     pass
 
