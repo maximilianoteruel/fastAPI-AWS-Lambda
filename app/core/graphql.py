@@ -4,7 +4,7 @@ import graphene
 # Schemas
 from app.api.graphql import notes
 
-from app.core.db.session import ScopedSession
+from app.core.db.session import SessionScoped
 
 # from sqlalchemy.orm import scoped_session
 
