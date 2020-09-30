@@ -1,35 +1,33 @@
 version: "3.4"
 services:
-  api:
+  tests:
     build:
       target: dev
       context: .
       dockerfile: ./Dockerfile
-    image: is_api
-    ports:
-      - "8000:8000"
+    image: is_test
     environment:
-      - TYPE=API
+      - TYPE=TEST
       - ENVIRONMENT=DEV
-      - DATABASE_HOST=db
+      - DATABASE_HOST=db_test
       - DATABASE_USER=root
       - DATABASE_PASSWORD=root_1234Azumo
       - DATABASE_NAME=DB
     volumes:
       - ./:/usr/src/app
     depends_on:
-      - db
+      - db_test
 
-  db:
+  db_test:
     image: mysql:8.0.21
     command: --default-authentication-plugin=mysql_native_password
     ports:
-      - "3306:3306"
+      - "3307:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=root_1234Azumo
       - MYSQL_DATABASE=DB
     volumes:
-      - db_data:/var/lib/mysql
+      - db_test_data:/var/lib/mysql
 
 volumes:
-  db_data:
+  db_test_data:
