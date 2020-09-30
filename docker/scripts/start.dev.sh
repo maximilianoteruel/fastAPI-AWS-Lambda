@@ -22,9 +22,6 @@ if [ "$TYPE" == "API" ]; then
     echo 'Runing Migrations...'
     PYTHONPATH=. alembic upgrade head
     
-    # echo 'Create initial data in DB...'
-    # python /usr/src/app/app/initial_data.py
-    
     echo 'Starting Server...'
     uvicorn app.main:app --reload --host 0.0.0.0
     
