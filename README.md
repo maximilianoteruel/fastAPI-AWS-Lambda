@@ -5,7 +5,7 @@
 ```
 - TYPE
   Allowed Values: API, TEST
-  Description: Used by start script to run different modules, for example api, celery-worker, test, etc (./docker/start.__.sh)
+  Description: Used by start script to run different modules, for example api, celery-worker, test, etc (./docker/scripts/start.__.sh)
 
 - ENVIRONMENT
   Allowed Values: DEV, PROD
