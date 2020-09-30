@@ -4,7 +4,6 @@ import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from app.core.settings.get_settings import settings
 from app.core.db.session import SessionLocal
 from app.main import app
 

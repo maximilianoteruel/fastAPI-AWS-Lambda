@@ -1,7 +1,7 @@
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from app.core.settings.get_settings import settings
+from app.core.settings import get_settings
 
 from app.tests.utils.utils import random_string
 from app.cruds.notes import crud_note
@@ -13,7 +13,7 @@ from app.schemas.notes import NoteCreate
 def test_create_note(client: TestClient, db: Session) -> None:
 
     data = {"title": random_string(100), "description": random_string(255), "tags": random_string(100)}
-    response = client.post(f"{settings.API_HOST}/notes/", json=data,)
+    response = client.post(f"{get_settings().API_HOST}/notes/", json=data,)
     content = response.json()
 
     assert response.status_code == 200
@@ -33,7 +33,7 @@ def test_read_note(client: TestClient, db: Session) -> None:
     note_in = NoteCreate(title=title, description=description, tags=tags)
     note = crud_note.create(db=db, obj_in=note_in)
 
-    response = client.get(f"{settings.API_HOST}/notes/{note.id}",)
+    response = client.get(f"{get_settings().API_HOST}/notes/{note.id}",)
     content = response.json()
 
     assert response.status_code == 200
@@ -56,7 +56,7 @@ def test_read_notes(client: TestClient, db: Session) -> None:
         note_in = NoteCreate(title=title, description=description, tags=tags)
         crud_note.create(db=db, obj_in=note_in)
 
-    response = client.get(f"{settings.API_HOST}/notes/",)
+    response = client.get(f"{get_settings().API_HOST}/notes/",)
     content = response.json()
 
     assert response.status_code == 200
@@ -75,7 +75,7 @@ def test_update_note(client: TestClient, db: Session) -> None:
 
     data = {"title": random_string(100), "description": random_string(255), "tags": random_string(100)}
 
-    response = client.put(f"{settings.API_HOST}/notes/{note.id}", json=data,)
+    response = client.put(f"{get_settings().API_HOST}/notes/{note.id}", json=data,)
     content = response.json()
 
     assert response.status_code == 200
@@ -96,7 +96,7 @@ def test_delete_note(client: TestClient, db: Session) -> None:
     note = crud_note.create(db=db, obj_in=note_in)
     print("note id: ", note.id)
 
-    response = client.delete(f"{settings.API_HOST}/notes/{note.id}",)
+    response = client.delete(f"{get_settings().API_HOST}/notes/{note.id}",)
     content = response.json()
 
     assert response.status_code == 200

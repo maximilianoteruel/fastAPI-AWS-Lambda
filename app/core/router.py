@@ -1,6 +1,6 @@
 # FastAPI
 from fastapi import APIRouter
-from app.core.settings.get_settings import settings
+from app.core.settings import get_settings
 
 # GraphQL
 import graphene
@@ -12,4 +12,4 @@ from app.api.rest.notes import router as notes_router
 
 core_router = APIRouter()
 core_router.include_router(notes_router, prefix="/notes", tags=["notes"])
-core_router.add_route("/graphql", GraphQLApp(schema=schema, graphiql=settings.GRAPHIQL))
+core_router.add_route("/graphql", GraphQLApp(schema=schema, graphiql=get_settings().GRAPHIQL))
