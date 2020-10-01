@@ -17,7 +17,6 @@ if [ "$TYPE" == "API" ]; then
     echo 'Starting Server...'
     uvicorn app/main:app
     
-    
 fi
 
 echo '::: Start Production - END :::'

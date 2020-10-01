@@ -6,6 +6,9 @@ class Settings(BaseSettings):
 
     SECRET_KEY: str
 
+    JWT_ALGORITHM: str
+    JWT_EXPIRE_MINUTES: int
+
     API_HOST: str
 
     DATABASE_HOST: str

@@ -8,6 +8,8 @@ EXPOSE 8000
 
 RUN apk update && \
     apk add --no-cache --virtual .build-deps gcc libc-dev make \
+    # bcrypt dependencies
+    musl-dev gcc libffi-dev \
     # mysqlclient dependencies
     mysql-dev \
     # PIP
