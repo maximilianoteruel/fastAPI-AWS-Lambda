@@ -12,14 +12,14 @@ from jose import jwt
 from pydantic import ValidationError
 
 from app.core.settings import get_settings
-from app.core.db.session import SessionLocal
+from app.core.db.session import session_local
 
 reusable_oauth2 = OAuth2PasswordBearer(tokenUrl=f"{get_settings().API_HOST}/login/access-token")
 
 
 def get_db() -> Generator:
     try:
-        db = SessionLocal()
+        db = session_local()
         yield db
     finally:
         db.close()
