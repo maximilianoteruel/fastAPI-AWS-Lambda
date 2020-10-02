@@ -1,6 +1,7 @@
 from typing import Any
 
 from sqlalchemy.ext.declarative import as_declarative, declared_attr
+from app.core.db.session import SessionScoped
 
 
 @as_declarative()
@@ -12,3 +13,5 @@ class Base:
     def __tablename__(cls) -> str:
         return cls.__name__.lower()
 
+    # required by GrahQL
+    query = SessionScoped.query_property()

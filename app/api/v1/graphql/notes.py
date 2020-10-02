@@ -1,17 +1,33 @@
 # GraphQL
 import graphene
-
-# Core
-from app.core.db.session import SessionScoped
-
-# Models
-from app.models.notes import Note
+from graphene_sqlalchemy import SQLAlchemyConnectionField
 
 # Types
-from .types import NoteType
+from app.gql_objects.notes import NoteType, NoteTypeRelay
 
 # Cruds
 from app.cruds.notes import crud_note
+
+from app.core.db.session import SessionScoped
+
+
+class Query(graphene.ObjectType):
+    #  Note
+    note = graphene.Field(NoteType, id=graphene.Argument(graphene.ID, required=True))
+
+    def resolve_note(self, info, id):
+        return crud_note.get(db=SessionScoped, id=id)
+
+    # List of Notes
+
+    notes = graphene.List(NoteType)
+
+    def resolve_notes(self, info):
+        return crud_note.get_multi(db=SessionScoped)
+
+    # Relay of Notes
+
+    notes_relay = SQLAlchemyConnectionField(NoteTypeRelay.connection)
 
 
 # Create Note
@@ -61,3 +77,13 @@ class NoteDelete(graphene.Mutation):
             return NoteDelete(status=False)
         data = crud_note.remove(db=SessionScoped, id=note.id)
         return NoteDelete(status=True)
+
+
+class Mutation(graphene.ObjectType):
+    note_create = NoteCreate.Field()
+    note_update = NoteUpdate.Field()
+    note_delete = NoteDelete.Field()
+    pass
+
+
+schema = graphene.Schema(query=Query, mutation=Mutation)

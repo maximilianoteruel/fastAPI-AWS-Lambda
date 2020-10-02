@@ -12,7 +12,10 @@ router = APIRouter()
 
 # Get list of Notes
 @router.get("/", response_model=List[schemas.Note])
-async def read_notes(skip: int = 0, limit: int = 100, db: Session = Depends(deps.get_db)) -> Any:
+def read_notes(skip: int = 0, limit: int = 100, db: Session = Depends(deps.get_db)) -> Any:
+    """
+    Get list of Notes.
+    """
     notes = crud_note.get_multi(db, skip=skip, limit=limit)
     return notes
 
