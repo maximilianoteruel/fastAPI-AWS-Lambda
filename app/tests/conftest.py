@@ -4,13 +4,13 @@ import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from app.core.db.session import session_local
+from app.core.db.session import SessionLocal
 from app.main import app
 
 
 @pytest.fixture(scope="session")
 def db() -> Generator:
-    yield session_local()
+    yield SessionLocal()
 
 
 @pytest.fixture(scope="module")

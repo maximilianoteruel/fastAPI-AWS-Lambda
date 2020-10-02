@@ -15,6 +15,3 @@ class Settings(BaseSettings):
     DATABASE_USER: str
     DATABASE_PASSWORD: str
     DATABASE_NAME: str
-
-    GRAPHIQL: bool
-
