@@ -38,9 +38,6 @@ def get_url():
     return f"mysql://{user}:{password}@{server}/{db}"
 
 
-print("Get:", get_url())
-
-
 def run_migrations_offline():
     """Run migrations in 'offline' mode.
 

@@ -23,7 +23,6 @@ if [ "$TYPE" == "API" ]; then
     PYTHONPATH=. alembic upgrade head
     
     echo 'Starting Server...'
-    # uvicorn app.main:app --reload --host 0.0.0.0
     hypercorn app.main:app --reload --bind '0.0.0.0:8000'
     
 fi

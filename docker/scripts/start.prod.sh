@@ -15,8 +15,7 @@ if [ "$TYPE" == "API" ]; then
     echo '*** Type API ***'
     
     echo 'Starting Server...'
-    uvicorn app/main:app
-    
+    hypercorn app.main:app --reload --bind '0.0.0.0:8000'
 fi
 
 echo '::: Start Production - END :::'
