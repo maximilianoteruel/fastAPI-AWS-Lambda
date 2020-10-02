@@ -12,12 +12,12 @@ from jose import jwt
 from pydantic import ValidationError
 
 from app.core.settings import get_settings
-from app.core.db.session import SessionLocal
+from app.core.db.session import SessionLocal, SessionGlobal
 
 reusable_oauth2 = OAuth2PasswordBearer(tokenUrl=f"{get_settings().API_HOST}/login/access-token")
 
 
-def get_db() -> Generator:
+def get_db_local() -> Generator:
     try:
         db = SessionLocal()
         yield db
@@ -25,7 +25,17 @@ def get_db() -> Generator:
         db.close()
 
 
-def get_current_user(db: Session = Depends(get_db), token: str = Depends(reusable_oauth2)) -> models.User:
+def get_db_global() -> Generator:
+    try:
+        db = SessionGlobal()
+        yield db
+    finally:
+        db.close()
+
+
+def get_current_user(
+    db: Session = Depends(get_db_local), token: str = Depends(reusable_oauth2)
+) -> models.User:
     try:
         payload = jwt.decode(token, get_settings().SECRET_KEY, algorithms=[get_settings().JWT_ALGORITHM])
         token_data = schemas.TokenPayload(**payload)

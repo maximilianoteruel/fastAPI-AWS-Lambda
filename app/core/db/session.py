@@ -13,4 +13,5 @@ SQLALCHEMY_DATABASE_URL = "mysql://{}:{}@{}/{}".format(
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL, pool_pre_ping=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+SessionGlobal = sessionmaker(autocommit=True, autoflush=True, bind=engine)
 SessionScoped = scoped_session(SessionLocal)

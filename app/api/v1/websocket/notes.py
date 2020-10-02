@@ -1,24 +1,38 @@
-from fastapi import APIRouter, WebSocket
-
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect, Depends
+from app.api import deps
+from sqlalchemy.orm import Session
 from app.cruds.notes import crud_note
 from app.schemas.notes import Note
-from app.core.db.session import SessionScoped
+from .manager import ConnectionManager
 
 router = APIRouter()
 
+manager = ConnectionManager()
+
 
 @router.websocket("/")
-async def websocket_endpoint(websocket: WebSocket):
-    await websocket.accept()
-    while True:
-        data = await websocket.receive_text()
-        note = crud_note.get(db=SessionScoped, id=int(data))
-        result = f"Note ID: {data} | "
-        if note:
-            result += str(note.__dict__)
-        else:
-            result += "Not found"
-        await websocket.send_text(result)
+async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(deps.get_db_global)):
+    await manager.connect(websocket)
+    try:
+        while True:
+            data = await websocket.receive_text()
+
+            if not data.isnumeric():
+                result = "Not a number"
+            else:
+                result = f"Note ID: {data} | "
+
+                note = crud_note.get(db=db, id=int(data))
+                if note:
+                    note_dict = note.__dict__
+                    note_dict.pop("_sa_instance_state")
+                    result += str(note_dict)
+                else:
+                    result += "Not found"
+
+            await manager.send_message(result, websocket)
+    except WebSocketDisconnect:
+        await manager.broadcast(f"Some Client Disconnected")
 
 
 # Test Endpoint
@@ -29,13 +43,14 @@ html = f"""
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Chat</title>
+        <title>WebSocket Note</title>
     </head>
     <body>
-        <h1>WebSocket Chat</h1>
+        <h1>WebSocket Note</h1>
         <form action="" onsubmit="sendMessage(event)">
+            <span>Note ID:</span>
             <input type="text" id="messageText" autocomplete="off"/>
-            <button>Send</button>
+            <button>Query</button>
         </form>
         <ul id='messages'>
         </ul>

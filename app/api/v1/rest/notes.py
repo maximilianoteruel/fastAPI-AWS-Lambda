@@ -12,7 +12,7 @@ router = APIRouter()
 
 # Get list of Notes
 @router.get("/", response_model=List[schemas.Note])
-def read_notes(skip: int = 0, limit: int = 100, db: Session = Depends(deps.get_db)) -> Any:
+def read_notes(skip: int = 0, limit: int = 100, db: Session = Depends(deps.get_db_local)) -> Any:
     """
     Get list of Notes.
     """
@@ -22,7 +22,7 @@ def read_notes(skip: int = 0, limit: int = 100, db: Session = Depends(deps.get_d
 
 # Get Note
 @router.get("/{id}", response_model=schemas.Note)
-def read_note(*, db: Session = Depends(deps.get_db), id: int,) -> Any:
+def read_note(*, db: Session = Depends(deps.get_db_local), id: int,) -> Any:
     """
     Get item by ID.
     """
@@ -34,7 +34,7 @@ def read_note(*, db: Session = Depends(deps.get_db), id: int,) -> Any:
 
 # Create Note
 @router.post("/", response_model=schemas.Note)
-def create_note(*, db: Session = Depends(deps.get_db), note_in: schemas.NoteCreate,) -> Any:
+def create_note(*, db: Session = Depends(deps.get_db_local), note_in: schemas.NoteCreate,) -> Any:
     """
     Create new item.
     """
@@ -44,7 +44,7 @@ def create_note(*, db: Session = Depends(deps.get_db), note_in: schemas.NoteCrea
 
 # Update Note
 @router.put("/{id}", response_model=schemas.Note)
-def update_item(*, db: Session = Depends(deps.get_db), id: int, note_in: schemas.NoteUpdate,) -> Any:
+def update_item(*, db: Session = Depends(deps.get_db_local), id: int, note_in: schemas.NoteUpdate,) -> Any:
     """
     Update an item.
     """
@@ -57,7 +57,7 @@ def update_item(*, db: Session = Depends(deps.get_db), id: int, note_in: schemas
 
 # Get Note
 @router.delete("/{id}", response_model=schemas.Note)
-def delete_note(*, db: Session = Depends(deps.get_db), id: int,) -> Any:
+def delete_note(*, db: Session = Depends(deps.get_db_local), id: int,) -> Any:
     """
     Delete an item.
     """
