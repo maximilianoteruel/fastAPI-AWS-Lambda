@@ -20,7 +20,7 @@ sam validate
 
 sam build --use-container --debug
 
-sam package --s3-bucket fast-api-bucket  --output-template-file out.yml --region sa-east-1
+sam package --s3-bucket fast-api-bucket --output-template-file out.yml --region sa-east-1
 
 sam deploy --template-file out.yml --stack-name STACKIS --region sa-east-1 --no-fail-on-empty-changeset --capabilities CAPABILITY_IAM
 ```
