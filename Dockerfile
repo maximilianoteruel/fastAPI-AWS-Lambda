@@ -1,50 +1,20 @@
-# base ################################################################################################
-
-FROM python:3.8.5-alpine3.12 as base
+FROM python:3.8.6-slim-buster
 
 WORKDIR /usr/src/app
 
 EXPOSE 8000
 
-RUN apk update && \
-    apk add --no-cache --virtual .build-deps gcc libc-dev make \
-    # bcrypt dependencies
-    musl-dev gcc libffi-dev \
-    # mysqlclient dependencies
-    mysql-dev \
-    # PIP
-    && pip3 install --upgrade pip
+ENV PYTHONPATH=/usr/src/app
 
-COPY  docker/requirements/base.txt /usr/src/docker/requirements/base.txt
+RUN pip3 install --upgrade pip
 
-RUN pip3 install -r /usr/src/docker/requirements/base.txt
+COPY  ./requirements.txt ./requirements.txt
 
-RUN addgroup -S noroot && adduser -S noroot -G noroot
+RUN pip3 install -r ./requirements.txt
 
-COPY --chown=noroot:noroot docker /usr/src/docker
+COPY  ./scripts /usr/src/scripts
 
-RUN chmod +x -R /usr/src/docker/scripts
+RUN chmod +x -R /usr/src/scripts
+# CMD ["/bin/bash", "-c", "--", "while true; do sleep 30; done;"]   
 
-ENTRYPOINT ["/usr/src/docker/scripts/entrypoint.sh"]
-
-
-# dev ################################################################################################
-
-FROM base as dev
-
-RUN pip3 install -r /usr/src/docker/requirements/dev.txt
-
-CMD ["/usr/src/docker/scripts/start.dev.sh"]
-
-
-# prod ################################################################################################
-
-FROM base as prod
-
-COPY --chown=noroot:noroot . .
-
-RUN pip3 install -r /usr/src/docker/requirements/prod.txt
-
-USER noroot
-
-CMD ["/usr/src/docker/scripts/start.prod.sh"]
+CMD ["/usr/src/scripts/init.sh"]

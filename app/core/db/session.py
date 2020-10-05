@@ -1,3 +1,4 @@
+import pymysql
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 
@@ -10,6 +11,8 @@ SQLALCHEMY_DATABASE_URL = "mysql://{}:{}@{}/{}".format(
     get_settings().DATABASE_HOST,
     get_settings().DATABASE_NAME,
 )
+
+pymysql.install_as_MySQLdb()
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL, pool_pre_ping=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
