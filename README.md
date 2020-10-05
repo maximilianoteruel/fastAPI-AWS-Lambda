@@ -1,69 +1,26 @@
 # FastAPI
 
-## Environment Variables
-
-```
-- TYPE
-  Allowed Values: API, TEST
-  Description: Used by start script to run different modules, for example api, celery-worker, test, etc (./docker/scripts/start.__.sh)
-
-- ENVIRONMENT
-  Allowed Values: DEV, PROD
-  Description: Used by the application to change internal settings (./app/core/settings)
-
-
-- DATABASE_HOST
-- DATABASE_USER
-- DATABASE_PASSWORD
-- DATABASE_NAME
-```
-
-## Run Development Environment
-
-- Install docker and docker-compose
-- Run in terminal:
+Generate Migration:
 
 ```bash
-docker-compose -f "docker-compose.yml" up -d --build
+alembic revision --autogenerate -m "name"
+
 ```
 
-**Database** will be exposed on port **3306**
-**API** will be exposed on port **8000**
-
-## Run Tests
-
-- Run in terminal:
+Run Tests:
 
 ```bash
-docker-compose -f "docker-compose.test.yml" up -d --build
+ pytest --cov=app --cov-report=term-missing:skip-covered app/tests
 ```
 
-Check the results in **test** container logs
-
-## Main Dependencies
-
-- _SQLAlchemy_: ORM
-- _Alembic_: Database Migrations
-- _Graphene_: GraphQL
-
-## Files Structure
+Deploy on AWS Lambda:
 
 ```bash
-- ./alembic/versions #database migrations
+sam validate
 
-- ./docker #contains files needed in Dockerfile
-- ./docker/requirements #python dependencies
-- ./docker/scripts/entrypoint.sh #script to run in docker ENTRYPOINT
-- ./docker/scripts/start.dev.sh #script to run in docker CMD (only in dev environment)
-- ./docker/scripts/start.prod.sh #script to run in docker CMD (only in prod environment)
+sam build --use-container --debug
 
-- ./app/core #core files common to the entire app, like db conection, settings configurations, etc...
+sam package --s3-bucket fast-api-bucket  --output-template-file out.yml --region sa-east-1
 
-- ./app/models #SQLAlchemy models (database)
-- ./app/schemas #Pydantic models (data shape)
-- ./app/cruds #Classes to manipulate the Models
-
-- ./app/tests #tests
-
-- ./app/api #api REST and GraphQL fucionalities
+sam deploy --template-file out.yml --stack-name STACKIS --region sa-east-1 --no-fail-on-empty-changeset --capabilities CAPABILITY_IAM
 ```

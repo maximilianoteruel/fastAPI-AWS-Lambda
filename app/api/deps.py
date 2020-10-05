@@ -11,10 +11,10 @@ from fastapi.security import OAuth2PasswordBearer
 from jose import jwt
 from pydantic import ValidationError
 
-from app.core.settings import get_settings
+from app.core.config import settings
 from app.core.db.session import SessionLocal, SessionGlobal
 
-reusable_oauth2 = OAuth2PasswordBearer(tokenUrl=f"{get_settings().API_HOST}/login/access-token")
+reusable_oauth2 = OAuth2PasswordBearer(tokenUrl=f"{settings.API_HOST}/login/access-token")
 
 
 def get_db_local() -> Generator:
@@ -37,7 +37,7 @@ def get_current_user(
     db: Session = Depends(get_db_local), token: str = Depends(reusable_oauth2)
 ) -> models.User:
     try:
-        payload = jwt.decode(token, get_settings().SECRET_KEY, algorithms=[get_settings().JWT_ALGORITHM])
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.JWT_ALGORITHM])
         token_data = schemas.TokenPayload(**payload)
     except (jwt.JWTError, ValidationError):
         raise HTTPException(

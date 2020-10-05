@@ -1,7 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
-Description: >
-  fastAPI aws lambda example
+Description: "fastAPI aws lambda example"
 Resources:
   FastapiExampleLambda:
     Type: AWS::Serverless::Function
@@ -18,8 +17,8 @@ Resources:
       CodeUri: ./
       Handler: app.main.handler
       Runtime: python3.8
-      Timeout: 300 # timeout of your lambda function
-      MemorySize: 128 # memory size of your lambda function
+      Timeout: 300
+      MemorySize: 128
       Description: fastAPI aws lambda example
       Role: !Sub arn:aws:iam::717697772587:role/fastapilambdarole
 

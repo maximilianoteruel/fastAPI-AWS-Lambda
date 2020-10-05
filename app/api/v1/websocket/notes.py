@@ -37,7 +37,7 @@ async def websocket_endpoint(websocket: WebSocket, db: Session = Depends(deps.ge
 
 # Test Endpoint
 from fastapi.responses import HTMLResponse
-from app.core.settings import get_settings
+from app.core.config import settings
 
 html = f"""
 <!DOCTYPE html>
@@ -55,7 +55,7 @@ html = f"""
         <ul id='messages'>
         </ul>
         <script>
-            var ws = new WebSocket("{get_settings().API_HOST.replace("http://","ws://")}/v1/notes/ws/");
+            var ws = new WebSocket("{settings.API_HOST.replace("http://","ws://")}/v1/notes/ws/");
             ws.onmessage = function(event) {{
                 var messages = document.getElementById('messages')
                 var message = document.createElement('li')

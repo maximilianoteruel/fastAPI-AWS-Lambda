@@ -38,37 +38,8 @@ done
 echo 'DB is available'
 
 
-if [ -z ${TYPE+x} ]; then
-    echo 'Environment Variable TYPE is not defined. Setting to TYPE=API'
-    TYPE="API"
-fi
+echo 'Runing Migrations...'
+alembic upgrade head
 
-if [ "$TYPE" == "API" ]; then
-    
-    echo '*** Type API ***'
-    
-    
-    # echo 'Generating Migrations...'
-    # alembic revision --autogenerate -m "name"
-    
-    echo 'Runing Migrations...'
-    alembic upgrade head
-    
-    echo 'Starting Server...'
-    hypercorn app.main:app --reload --bind '0.0.0.0:8000'
-    
-fi
-
-if [ "$TYPE" == "TEST" ]; then
-    
-    echo '*** Type TEST ***'
-    
-    echo 'Runing Migrations...'
-    PYTHONPATH=. alembic upgrade head
-    
-    echo 'Runing Tests...'
-    pytest --cov=app --cov-report=term-missing:skip-covered app/tests
-    
-fi
-
-
+echo 'Starting Server...'
+hypercorn app.main:app --reload --bind '0.0.0.0:8000'
