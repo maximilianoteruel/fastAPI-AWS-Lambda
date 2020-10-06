@@ -1,6 +1,7 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
 Description: "fastAPI aws lambda example"
+
 Resources:
   FastapiExampleLambda:
     Type: AWS::Serverless::Function
@@ -21,6 +22,16 @@ Resources:
       MemorySize: 128
       Description: fastAPI aws lambda example
       Role: !Sub arn:aws:iam::717697772587:role/fastapilambdarole
+      Environment:
+        Variables:
+          API_HOST:
+          SECRET_KEY:
+          JWT_ALGORITHM:
+          JWT_EXPIRE_MINUTES:
+          DATABASE_HOST:
+          DATABASE_USER:
+          DATABASE_PASSWORD:
+          DATABASE_NAME:
 
   FastapiExampleGateway:
     Type: AWS::Serverless::Api
